@@ -1,0 +1,39 @@
+version: "3.6"
+services:
+ mysql:
+  container_name: pfem-db
+  image: mysql
+  environment:
+   MYSQL_ROOT_PASSWORD: 'root'
+   MYSQL_DATABASE: 'pfemanager'
+  networks:
+    - back-db
+  volumes:
+   - mysql-data:/var/lib/mysql
+   - ./initsql:/docker-entrypoint-initdb.d
+  ports:
+    - "3306:3306"
+  expose:
+    - "3306"
+
+#  spring-boot:
+#   container_name: pfem-back
+#   image: pfem-back
+#   ports:
+#    - "3035:3035"
+#   expose:
+#     - "3035"
+#   depends_on:
+#     - mysql
+#   command: sh -c "/wait && java -jar target/pfemanager-0.0.1-SNAPSHOT.jar"
+#   environment:
+#     - WAIT_HOSTS=pfem-db:3306
+#     - WAIT_HOSTS_TIMEOUT=300
+#     - WAIT_SLEEP_INTERVAL=30
+#     - WAIT_HOST_CONNECT_TIMEOUT=30
+
+volumes:
+ mysql-data:
+
+networks:
+ back-db:

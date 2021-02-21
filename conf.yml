@@ -1,0 +1,60 @@
+i# FRONT
+# dl from gh, unzip, install and build
+FROM node:alpine
+ADD https://github.com/MarouaneEssid/pfem-front/archive/main.zip ./
+RUN apk add unzip && unzip main.zip
+WORKDIR /pfem-front-main
+RUN npm install && npm run build
+
+# BACK
+FROM maven:3.6-ibmjava-alpine
+ADD https://github.com/MarouaneEssid/pfem-back/archive/main.zip ./
+RUN apk update && apk add unzip && unzip main.zip && mv pfem-back-main/ pfem-back/
+WORKDIR pfem-back
+COPY application.properties src/main/ressources/
+RUN mvn clean install
+EXPOSE 3035
+CMD ["java", "-jar", "target/pfemanager-0.0.1-SNAPSHOT.jar"]
+
+# COMPOSE
+version: "3.6"
+services:
+ mysql:
+  container_name: pfem-db
+  image: mysql
+  environment:
+   MYSQL_ROOT_PASSWORD: 'root'
+   MYSQL_DATABASE: 'pfemanager'
+  networks:
+    - back-db
+  volumes:
+   - mysql-data:/var/lib/mysql
+   - ./initsql:/docker-entrypoint-initdb.d
+  ports:
+    - "3306:3306"
+  expose:
+    - "3306"
+
+#  spring-boot:
+#   container_name: pfem-back
+#   image: pfem-back
+#   ports:
+#    - "3035:3035"
+#   expose:
+#     - "3035"
+#   depends_on:
+#     - mysql
+#   command: sh -c "/wait && java -jar target/pfemanager-0.0.1-SNAPSHOT.jar"
+#   environment:
+#     - WAIT_HOSTS=pfem-db:3306
+#     - WAIT_HOSTS_TIMEOUT=300
+#     - WAIT_SLEEP_INTERVAL=30
+#     - WAIT_HOST_CONNECT_TIMEOUT=30
+
+volumes:
+ mysql-data:
+
+networks:
+ back-db:
+
+
