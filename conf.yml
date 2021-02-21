@@ -1,6 +1,3 @@
-#WGET from
-https://github.com/MarouaneEssid/pfemback-docker/archive/main.tar.gz
-
 # FRONT
 # dl from gh, unzip, install and build
 FROM node:alpine
