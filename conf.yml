@@ -1,20 +1,13 @@
-i# FRONT
+#WGET from
+https://github.com/MarouaneEssid/pfemback-docker/archive/main.tar.gz
+
+# FRONT
 # dl from gh, unzip, install and build
 FROM node:alpine
 ADD https://github.com/MarouaneEssid/pfem-front/archive/main.zip ./
 RUN apk add unzip && unzip main.zip
 WORKDIR /pfem-front-main
 RUN npm install && npm run build
-
-# BACK
-FROM maven:3.6-ibmjava-alpine
-ADD https://github.com/MarouaneEssid/pfem-back/archive/main.zip ./
-RUN apk update && apk add unzip && unzip main.zip && mv pfem-back-main/ pfem-back/
-WORKDIR pfem-back
-COPY application.properties src/main/ressources/
-RUN mvn clean install
-EXPOSE 3035
-CMD ["java", "-jar", "target/pfemanager-0.0.1-SNAPSHOT.jar"]
 
 # COMPOSE
 version: "3.6"
