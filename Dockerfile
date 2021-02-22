@@ -1,4 +1,5 @@
-FROM maven:3.6-ibmjava-alpine # alpine linux + java 8 + maven 3.6
+# alpine linux + java 8 + maven 3.6
+FROM maven:3.6-ibmjava-alpine
 ADD https://github.com/MarouaneEssid/pfem-back/archive/main.zip ./
 RUN apk update && apk add unzip && unzip main.zip && mv pfem-back-main/ pfem-back/
 WORKDIR pfem-back
