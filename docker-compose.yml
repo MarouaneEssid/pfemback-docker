@@ -2,7 +2,7 @@ version: "2.1"
 
 services:
  back:
-  container_name: pfem-back
+  container_name: pfemback
   image: pfem-back
   ports:
    - "3035:3035"
@@ -12,7 +12,7 @@ services:
    - db
     
  db:
-  container_name: pfem-db
+  container_name: pfemdb
   image: mysql
   environment:
    - MYSQL_ROOT_PASSWORD=root
@@ -26,10 +26,6 @@ services:
     - "3307:3306"
   expose:
     - "3307"
-  healthcheck:
-   test: "/usr/bin/mysql --user=root --password=root --execute \"USE pfemanager;\"" # login to mysql and check db existance
-   timeout: 20s
-   retries: 10
             
                 
 #  frontend:
