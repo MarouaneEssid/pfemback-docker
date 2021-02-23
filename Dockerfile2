@@ -1,0 +1,13 @@
+# dl from gh, unzip, install and build
+FROM node:13.14.0-alpine AS build-stage
+ADD https://github.com/MarouaneEssid/pfem-front/archive/main.zip ./
+RUN apk add unzip && unzip main.zip
+WORKDIR /pfem-front-main
+RUN npm install
+RUN npm install -g @angular/cli
+RUN ng build
+
+# hosting stage
+FROM nginx:1.19-alpine
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY --from=build-stage /pfem-front-main/dist/ /usr/share/nginx/html/
