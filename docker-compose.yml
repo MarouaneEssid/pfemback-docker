@@ -28,11 +28,13 @@ services:
     - "3307"
             
                 
-#  frontend:
-#   container_name: pfem-front
-#   image: pfem-front
-#   ports:
-#    - "4200:80"
+ front:
+  container_name: pfemfront
+  image: pfem-front
+  ports:
+   - "4200:80"
+  expose:
+    - "4200"
             
 networks:
  back-db:
