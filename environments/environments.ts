@@ -1,5 +1,5 @@
 export const environment = {
     production: false,
-    apiUrl: 'pfemback:3035'
+    apiUrl: 'http://api:3035'
   };
   
