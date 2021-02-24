@@ -5,7 +5,7 @@ RUN apk add unzip && unzip main.zip
 WORKDIR /pfem-front-main
 RUN npm install
 RUN npm install -g @angular/cli
-COPY environments src/enviroments/
+# COPY environments src/enviroments/
 RUN ng build
 
 # hosting stage
